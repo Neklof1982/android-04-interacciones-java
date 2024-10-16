@@ -1,12 +1,10 @@
 package com.example.a04_practica_cambiarcolor4regiones;
 
-import static android.view.MotionEvent.*;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -57,14 +55,15 @@ public class MainActivity extends AppCompatActivity {
 
         rect3.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case ACTION_HOVER_ENTER:
-                        v.setBackgroundColor(blackColor);       // Cambia a negro al tocar
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.setBackgroundColor(blackColor);  // Cambia a negro al tocar
                         return true;
                     case MotionEvent.ACTION_UP:
-                    case ACTION_HOVER_EXIT:
-                        v.setBackgroundColor(originalColor);    // Vuelve al color original al soltar o cancelar
+                    case MotionEvent.ACTION_CANCEL:
+                        v.setBackgroundColor(originalColor);  // Vuelve al color original al soltar o cancelar
                         return true;
                 }
                 return false;
@@ -72,28 +71,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         rect4.setOnTouchListener(new View.OnTouchListener() {
-
-            private boolean isTouching = false;                 // Variable para verificar si está tocando
-
+            private boolean isTouching = false; // Variable para verificar si está tocando
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        isTouching = true;                      // Indica que se está tocando
-                        v.setBackgroundColor(blackColor);       // Cambia a negro al tocar
+                        isTouching = true; // Indica que se está tocando
+                        v.setBackgroundColor(blackColor); // Cambia a negro al tocar
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         // Verifica si el toque está fuera del rectángulo
                         if (!isTouching) {
                             v.setBackgroundColor(originalColor); // Vuelve al color original si sale
                         }
-                        return true;
+                        return false; //he cambiado a false (original true)
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        isTouching = false;                      // Restablece el estado
-                        v.setBackgroundColor(blackColor);        // Vuelve al color original al soltar
+                        isTouching = false; // Restablece el estado
+                        v.setBackgroundColor(originalColor); // Vuelve al color original al soltar
                         return true;
-                    case MotionEvent.ACTION_HOVER_EXIT:
+                    case MotionEvent.ACTION_OUTSIDE:
                         if (isTouching) {
                             // Permanece negro si todavía se está tocando
                             v.setBackgroundColor(blackColor);
@@ -103,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
 
 }
