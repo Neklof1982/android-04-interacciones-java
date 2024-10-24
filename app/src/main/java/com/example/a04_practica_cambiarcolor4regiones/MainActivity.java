@@ -1,6 +1,7 @@
 package com.example.a04_practica_cambiarcolor4regiones;
 
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         View rect4 = findViewById(R.id.rect4);
 
 
-        int originalColor = ContextCompat.getColor(rect1.getContext(), android.R.color.holo_red_light); // Color original
+        int originalColor = Color.parseColor("#8a0000");
         int blackColor = ContextCompat.getColor(rect1.getContext(), android.R.color.black);             // Color negro
 
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 int y = (int) event.getRawY();
 
                 int[] location = new int[2];
-                rect4.getLocationOnScreen(location); // Asegúrate de que esta llamada sea correcta
+                rect4.getLocationOnScreen(location); // Asegurar donde pulsamos
                 int left = location[0];
                 int top = location[1];
                 int right = left + rect4.getWidth();
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             v.setBackgroundColor(blackColor); // Cambia a negro
                             isInRect4 = true; // Marcamos que estamos dentro
                         } else {
-                            v.setBackgroundColor(originalColor); // Asegúrate de que sea rojo si está fuera
+                            v.setBackgroundColor(originalColor); //  Rojo si está fuera
                             isInRect4 = false; // Marcamos que estamos fuera
                         }
                         return true; // Indica que el evento fue manejado
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_MOVE:
                         if (isTouching) {
                             // Verifica si el toque está dentro de rect4
-                            if (x >= left && x <= right && y >= top && y <= bottom) {
+                            if ((x >= left && x <= right && y >= top && y <= bottom)) {
                                 if (!isInRect4) { // Si antes no estaba dentro, cambiamos a negro
                                     v.setBackgroundColor(blackColor); // Cambia a negro
                                     isInRect4 = true; // Actualiza el estado
